@@ -1,0 +1,24 @@
+image: python:latest
+
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: prac_db
+
+cache:
+  paths:
+    - ~/.cache/pip/
+
+before_script:
+  - python3 -V  # Print out python version for debugging
+  - virtualenv -p python3 virtualenv
+  - source virtualenv/bin/activate
+  - pip3 install --upgrade -r requirements.txt
+
+test:
+  variables:
+    DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
+  script:
+    - flake8
+    - python3 server/manage.py test
