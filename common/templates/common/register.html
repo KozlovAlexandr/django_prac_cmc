@@ -1,0 +1,62 @@
+{% include "common/base.html" %}
+
+{{ form.non_field_errors }}
+
+  <form class="form-horizontal" action='' method="POST"> {% csrf_token %}
+  <fieldset>
+    <div id="legend">
+      <legend class="">Register</legend>
+    </div>
+    <div class="control-group">
+      <!-- Username -->
+      <label class="control-label"  for="username">Username</label>
+      <div class="controls">
+      {{form.username}}
+      </div>
+      {% for error in form.username.errors %}
+       <p style="color: red">{{error}}</p>
+      {% endfor %}
+    </div>
+
+    <div class="control-group">
+      <!-- E-mail -->
+      <label class="control-label" for="email">E-mail</label>
+      <div class="controls">
+        {{ form.email }}
+      </div>
+      {% for error in form.email.errors %}
+       <p style="color: red">{{error}}</p>
+      {% endfor %}
+    </div>
+
+    <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" for="password1">Password</label>
+      <div class="controls">
+        {{form.password1}}
+      </div>
+      {% for error in form.password1.errors %}
+       <p style="color: red">{{error}}</p>
+      {% endfor %}
+    </div>
+
+    <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" for="password2">Confirm</label>
+      <div class="controls">
+        {{form.password2}}
+      </div>
+      {% for error in form.password2.errors %}
+      <p style="color: red">{{error}}</p>
+      {% endfor %}
+    </div>
+
+    <div class="control-group">
+      <!-- Button -->
+      <div class="controls">
+        <button class="btn btn-success">Register</button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>

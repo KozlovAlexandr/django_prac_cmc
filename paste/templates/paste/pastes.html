@@ -1,0 +1,11 @@
+{% include "common/base.html" %}
+
+{% if paste_list %}
+    <ul>
+    {% for paste in paste_list %}
+        <li><a href="/paste/{{ paste.hash }}/">{{ paste.title }}</a> by {{ paste.owner.username }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No pastes are available.</p>
+{% endif %}
