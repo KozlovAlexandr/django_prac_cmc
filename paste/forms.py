@@ -14,3 +14,16 @@ class PasteEditForm(ModelForm):
                 'class': 'form-control'
             }, format='%Y-%m-%dT%H:%M'),
         }
+
+
+class PasteCreateForm(ModelForm):
+
+    class Meta:
+        model = Paste
+        fields = ['title', 'syntax', 'expiration_date', 'text']
+        widgets =  {
+            'expiration_date': forms.DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'form-control'
+            }, format='%Y-%m-%dT%H:%M'),
+        }

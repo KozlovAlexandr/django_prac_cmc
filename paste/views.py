@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Paste
 from django.core.exceptions import PermissionDenied
-from .forms import PasteEditForm
+from .forms import PasteEditForm, PasteCreateForm
 from django.db import IntegrityError
 from django.shortcuts import redirect
 from django.views import View
@@ -59,3 +59,21 @@ def edit(request, paste_hash):
         form = PasteEditForm(instance=paste)
         form.expiration_date = paste.expiration_date
         return render(request, "paste/edit.html", {'form': form})
+
+
+def create(request):
+
+    if request.method == 'GET':
+        form = PasteCreateForm()
+        return render(request, "paste/create.html", {'form': form})
+
+    if request.method == 'POST':
+        form = PasteCreateForm(request.POST)
+        if form.is_valid():
+            new_paste = form.save(commit=False)
+            new_paste.owner = request.user
+            new_paste.save()
+            return redirect('detail', new_paste.hash)
+        else:
+            form.add_error(None, "Invalid data")
+            return render(request, "paste/create.html", {'form': form})
