@@ -5,6 +5,7 @@
     <p style="color:red">{{error}}</p>
 {% endfor %}
 
+    <p>Original url: {{form.instance.original_url}}</p>
 {% for field in form %}
 <div>
     <p>{{field.name}}: </p>

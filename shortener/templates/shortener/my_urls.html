@@ -1,0 +1,31 @@
+{% include "common/base.html" %}
+
+{% if expired or unexpired %}
+    <ul>
+    {% for url in unexpired %}
+        <li>
+        <p>   <a href="/shrt/{{ url.hash }}/">{{request.get_host}}/shrt/{{ url.hash }}</a>
+            by {{ url.owner.username}} </p>
+            <p>Original Url: <a href="{{url.original_url}}">{{url.original_url}}</a></p>
+            <a href="{% url 'shortener:edit' url.hash%}">Edit</a></p>
+            <p>Expires at: {{url.expiration_date}}</p>
+            <p>{{url.clicked}} clicks</p>
+        </li>
+    {% endfor %}
+        {% if expired %}
+        <h2>Expired: </h2>
+        {% endif %}
+     {% for url in expired %}
+        <li>
+        <p>   <a href="/shrt/{{ url.hash }}/">{{request.get_host}}/shrt/{{ url.hash }}</a>
+            by {{ url.owner.username}} </p>
+            <p>Original Url: <a href="{{url.original_url}}">{{url.original_url}}</a></p>
+            <a href="{% url 'shortener:edit' url.hash%}">Edit</a></p>
+            <p>Expired at: {{url.expiration_date}}</p>
+            <p>{{url.clicked}} clicks</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no short urls</p>
+{% endif %}

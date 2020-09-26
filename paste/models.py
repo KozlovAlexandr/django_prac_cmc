@@ -13,10 +13,16 @@ class Lang(models.Model):
 
 
 def get_url_hash():
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+
+    while True:
+
+        candidate = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        if not Paste.objects.filter(hash=candidate):
+            return candidate
 
 
 class PasteManager(models.Manager):
+
     def get_queryset(self):
         return super().get_queryset().filter(expiration_date__gt=datetime.now())
 
@@ -45,7 +51,7 @@ class Paste(models.Model):
         ]
         constraints = [
             models.CheckConstraint(check=models.Q(creation_date__lt=models.F('expiration_date'))
-                                   , name='created_lt_expired'),
+                                   , name='paste_created_lt_expired'),
         ]
 
 
@@ -56,4 +62,6 @@ class PasteCatalog(models.Model):
     def __str__(self):
         return "{}|{}".format(self.owner.username, self.name)
 
+    class Meta:
+        unique_together = [['owner', 'name']]
 # Create your models here.

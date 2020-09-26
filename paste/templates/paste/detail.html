@@ -5,7 +5,8 @@
 <p><b>{{paste.text}}</b></p>
 <p>created in {{paste.creation_date}}</p>
 <p>expired in {{paste.expiration_date}}</p>
-<p>owned by {{paste.owner.username}}</p>
+<p>owned by {% if paste.owner %} {{paste.owner.username}}
+            {% else %} Anonymous {% endif %}</p>
 {% if can_edit %}
 <p><a href="/paste/{{paste.hash}}/edit">edit my paste</a></p>
 {% endif %}

@@ -1,12 +1,16 @@
 <div>
 {% if request.user.is_authenticated %}
     <span>Hello, {{ user.username }} </span>
-    <span style="padding: 50px"><a href="/logout">Logout</a></span>
-    <span style="padding: 50px"><a href="/paste/my">My pastes</a></span>
-    <span style="padding: 50px"><a href="/shortener/my">My short urls</a></span>
+    <span ><a href="/logout">Logout</a></span>
+    <span ><a href="/paste/my">My pastes</a></span>
+    <span ><a href="/shrt/my">My short urls</a></span>
+    <span ><a href="{% url 'paste:create_catalog'%}">Create paste folder</a></span>
 {% else %}
     <span><a href="/register">Register</a></span>
     <span><a href="/login">Log in</a></span>
 {% endif %}
     <span><a href="/paste">All pastes</a></span>
+    <span><a href="/paste/create">Create paste</a></span>
+
+    <span><a href="/shrt/create">Create short url</a></span>
 </div>

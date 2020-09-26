@@ -18,13 +18,13 @@ class HomeView(View):
             return render(request, "common/home.html", {'user': request.user})
 
         else:
-            return redirect('login')
+            return redirect('common:login')
 
 
 def logout_view(request):
 
     logout(request)
-    return redirect('login')
+    return redirect('common:login')
 
 
 class RegisterView(View):
@@ -40,7 +40,7 @@ class RegisterView(View):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('home')
+            return redirect('common:home')
 
         return render(request, "common/register.html", {'form' : form})
 
@@ -56,7 +56,7 @@ class LoginView(View):
         authForm = AuthenticationForm(data=request.POST)
         if authForm.is_valid():
             login(request, authForm.get_user())
-            return redirect('home')
+            return redirect('common:home')
         else:
             context = {'form': authForm}
             return render(request, 'common/login.html', context)
