@@ -30,6 +30,9 @@ class PasteCreateForm(ModelForm):
     def __init__(self, user, *args, **kwargs):
 
         super(ModelForm, self).__init__(*args, **kwargs)
+
+        if not user.is_authenticated:
+            user = None
         choices = PasteCatalog.objects.filter(owner=user)
         cur = self.save(commit=False).catalog
         self.fields['catalog'] = forms.ModelChoiceField(queryset=choices, initial=cur,
