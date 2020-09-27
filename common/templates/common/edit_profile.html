@@ -1,0 +1,20 @@
+{% include "common/base.html" %}
+<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+
+{%for error in form.non_field_errors%}
+    <p style="color:red">{{error}}</p>
+{% endfor %}
+
+{% for field in form %}
+<div>
+    <p>{{field.name}}: </p>
+    <p>{{field}}</p>
+    <p>{{field.errors}}</p>
+
+</div>
+{% endfor %}
+<input type="submit" value="Submit">
+<!--    <input type="hidden" name="_method" value="delete">-->
+<!--    <input type="submit" value="Delete">-->
+
+</form>

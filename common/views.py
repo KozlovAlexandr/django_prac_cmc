@@ -5,8 +5,9 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
-from .forms import SignUpForm
+from .forms import SignUpForm, ProfileEditForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -60,3 +61,26 @@ class LoginView(View):
         else:
             context = {'form': authForm}
             return render(request, 'common/login.html', context)
+
+
+@login_required(login_url='/login')
+def detail_profile(request):
+
+    return render(request, 'common/detail_profile.html', {'profile' : request.user.profile })
+
+
+@login_required(login_url='/login')
+def profile_edit(request):
+
+    if request.method == 'POST':
+
+        form = ProfileEditForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('common:detail_profile')
+        return render(request, 'common/edit_profile.html', {'form': form})
+
+    if request.method == 'GET':
+
+        form = ProfileEditForm(instance=request.user.profile)
+        return render(request, 'common/edit_profile.html', {'form': form})

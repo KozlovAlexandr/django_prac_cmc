@@ -1,0 +1,13 @@
+{% include "common/base.html" %}
+
+<p>Username: {{profile.user.username}}</p>
+
+{% if profile.website %}
+<p>Website: {{profile.website}}</p>
+{% endif %}
+
+{% if profile.about %}
+<p>About: {{profile.about}}</p>
+{% endif %}
+
+<a href="{% url 'common:profile_edit' %}">Edit profile</a>

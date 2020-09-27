@@ -9,5 +9,7 @@ urlpatterns = [
     path('login', views.LoginView.as_view(), name='login'),
     path('home', views.HomeView.as_view(), name='home'),
     path('logout', views.logout_view, name='logout_view'),
+    path('profile', views.detail_profile, name='detail_profile'),
+    path('profile/edit', views.profile_edit, name='profile_edit'),
     path('', RedirectView.as_view(url='home')),
 ]

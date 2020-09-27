@@ -1,11 +1,18 @@
 <div>
+
+
 {% if request.user.is_authenticated %}
+    {% if user.profile.avatar %}
+        <img width="100" height="100" src="{{ user.profile.avatar.url }}" />
+    {% endif %}
     <span>Hello, {{ user.username }} </span>
     <span ><a href="/logout">Logout</a></span>
     <span ><a href="/paste/my">My pastes</a></span>
     <span ><a href="/shrt/my">My short urls</a></span>
     <span ><a href="{% url 'paste:create_catalog'%}">Create paste folder</a></span>
-{% else %}
+    <span ><a href="{% url 'common:detail_profile'%}">My profile</a></span>
+
+    {% else %}
     <span><a href="/register">Register</a></span>
     <span><a href="/login">Log in</a></span>
 {% endif %}
