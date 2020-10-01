@@ -1,62 +1,64 @@
 {% include "common/base.html" %}
 
+{% load widget_tweaks %}
+
 {{ form.non_field_errors }}
 
-  <form class="form-horizontal" action='' method="POST"> {% csrf_token %}
+<div class="container mt-4 col-3">
+  {{ form.non_field_errors }}
+  <form class="" action='' method="POST"> {% csrf_token %}
   <fieldset>
     <div id="legend">
-      <legend class="">Register</legend>
+      <legend class="text-center">Register</legend>
     </div>
-    <div class="control-group">
+    <div class="form-group">
       <!-- Username -->
       <label class="control-label"  for="username">Username</label>
       <div class="controls">
-      {{form.username}}
+      {% render_field form.username class+="form-control"%}
       </div>
       {% for error in form.username.errors %}
        <p style="color: red">{{error}}</p>
       {% endfor %}
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <!-- E-mail -->
       <label class="control-label" for="email">E-mail</label>
       <div class="controls">
-        {{ form.email }}
+        {% render_field form.email class+="form-control"%}
       </div>
       {% for error in form.email.errors %}
        <p style="color: red">{{error}}</p>
       {% endfor %}
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <!-- Password-->
       <label class="control-label" for="password1">Password</label>
       <div class="controls">
-        {{form.password1}}
+        {% render_field form.password1 class+="form-control"%}
       </div>
       {% for error in form.password1.errors %}
        <p style="color: red">{{error}}</p>
       {% endfor %}
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <!-- Password-->
       <label class="control-label" for="password2">Confirm</label>
       <div class="controls">
-        {{form.password2}}
+        {% render_field form.password2 class+="form-control"%}
       </div>
       {% for error in form.password2.errors %}
       <p style="color: red">{{error}}</p>
       {% endfor %}
     </div>
 
-    <div class="control-group">
-      <!-- Button -->
-      <div class="controls">
-        <button class="btn btn-success">Register</button>
-      </div>
+    <div class="form-group text-center">
+        <button class="btn btn-primary col-12">Submit</button>
     </div>
 
   </fieldset>
 </form>
+</div>

@@ -15,6 +15,7 @@ class SignUpForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 
+
 class ProfileEditForm(ModelForm):
 
     def __init__(self, *args, **kwargs):

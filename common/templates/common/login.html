@@ -1,8 +1,42 @@
 {% include "common/base.html" %}
-<form action="" method="POST"> {% csrf_token %}
-      {% for field in form %}
-      {{field}}
-      {{field.errors}}
+
+{% load widget_tweaks %}
+
+{{ form.non_field_errors }}
+
+<div class="container mt-4 col-3">
+  {{ form.non_field_errors }}
+  <form class="" action='' method="POST"> {% csrf_token %}
+  <fieldset>
+    <div id="legend">
+      <legend class="text-center">Log in</legend>
+    </div>
+    <div class="form-group">
+      <!-- Username -->
+      <label class="control-label"  for="username">Username</label>
+      <div class="controls">
+      {% render_field form.username class+="form-control"%}
+      </div>
+      {% for error in form.username.errors %}
+       <p style="color: red">{{error}}</p>
       {% endfor %}
-      <input type="submit" class="fadeIn fourth" value="Log In">
+    </div>
+
+    <div class="form-group">
+      <!-- Password-->
+      <label class="control-label" for="password">Password</label>
+      <div class="controls">
+        {% render_field form.password class+="form-control"%}
+      </div>
+      {% for error in form.password.errors %}
+       <p style="color: red">{{error}}</p>
+      {% endfor %}
+    </div>
+
+    <div class="form-group text-center">
+        <button class="btn btn-primary col-12">Submit</button>
+    </div>
+
+  </fieldset>
 </form>
+</div>

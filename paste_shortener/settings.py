@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'paste.apps.PasteConfig',
     'common.apps.CommonConfig',
 
+    'widget_tweaks',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

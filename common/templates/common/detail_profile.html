@@ -1,9 +1,11 @@
 {% include "common/base.html" %}
 
+<div class = "containter ml-4">
+
 <p>Username: {{profile.user.username}}</p>
 
 {% if profile.website %}
-<p>Website: {{profile.website}}</p>
+<p>Website: <a href ="http://{{profile.website}}">{{profile.website}}</a></p>
 {% endif %}
 
 {% if profile.about %}
@@ -11,3 +13,5 @@
 {% endif %}
 
 <a href="{% url 'common:profile_edit' %}">Edit profile</a>
+
+</div>
