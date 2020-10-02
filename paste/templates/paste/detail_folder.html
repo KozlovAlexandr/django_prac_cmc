@@ -1,28 +1,40 @@
 {% include "common/base.html" %}
 
+<div class = "container ml-0 col-12">
 
+{% if paste_list %}
+    <table class="table col-12">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Owner</th>
+          <th scope="col">Created</th>
+          <th scope="col">Syntax</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for paste in paste_list %}
+        <tr>
+          <td><a href="/paste/{{ paste.hash }}/">{{ paste.title }}</a></td>
+           <td>{% if paste.owner %} {{paste.owner.username}}
+                {% else %} Anonymous {% endif %}</td>
+          <td>{{paste.creation_date}}</td>
+          <td>{{paste.syntax}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-{% if paste_list or catalog_list %}
-
-    <ul>
-    {% for catalog in catalog_list %}
-        <li> Folder with {{catalog.paste_set.all | length}} pastes: <a href="{% url 'paste:detail_catalog' catalog.name %}">{{ catalog.name }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-
-    <ul>
-    {% for paste in paste_list %}
-        <li><a href="/paste/{{ paste.hash }}/">{{ paste.title }}</a> by
-            {% if paste.owner %} {{paste.owner.username}}
-            {% else %} Anonymous {% endif %}</li>
-    {% endfor %}
-    </ul>
 {% else %}
     <p>No pastes are available.</p>
 {% endif %}
 
 <form action="" method="POST"> {% csrf_token %}
     <input type="hidden" name="_method" value="delete">
-    <input type="submit" value="Delete folder">
+    <div class="ml-2">
+        <button class="btn btn-danger">Delete folder</button>
+    </div>
 </form>
+
+
+</div>

@@ -20,8 +20,8 @@ def show_all(request):
 def detail(request, paste_hash):
 
     paste = get_object_or_404(Paste.unexpired_objects, hash=paste_hash)
-    can_edit = paste.owner == request.user
-    context = {'paste': paste, 'can_edit': can_edit}
+    form = PasteEditForm(instance=paste, user=None)
+    context = {'form': form}
 
     return render(request, 'paste/detail.html', context)
 

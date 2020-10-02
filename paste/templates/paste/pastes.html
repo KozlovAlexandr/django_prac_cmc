@@ -1,23 +1,53 @@
 {% include "common/base.html" %}
 
-
+<div class = "container ml-0 col-12">
 
 {% if paste_list or catalog_list %}
 
-    <ul>
+    {% if catalog_list %}
+  <p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Show folders
+  </button>
+  </p>
+    <ul class="list-group collapse" id="collapseExample">
     {% for catalog in catalog_list %}
-        <li> Folder with {{catalog.paste_set.all | length}} pastes: <a href="{% url 'paste:detail_catalog' catalog.name %}">{{ catalog.name }}</a>
-        </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="{% url 'paste:detail_catalog' catalog.name %}">{{ catalog.name }}</a>
+    <span class="badge badge-primary badge-pill">{{catalog.paste_set.all | length}} pastes</span>
+  </li>
     {% endfor %}
     </ul>
+    {% endif %}
 
-    <ul>
-    {% for paste in paste_list %}
-        <li><a href="/paste/{{ paste.hash }}/">{{ paste.title }}</a> by
-            {% if paste.owner %} {{paste.owner.username}}
-            {% else %} Anonymous {% endif %}</li>
-    {% endfor %}
-    </ul>
+
+  {% if paste_list %}
+    <table class="table">
+       <caption style="caption-side: top">Pastes</caption>
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Owner</th>
+          <th scope="col">Created</th>
+          <th scope="col">Syntax</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for paste in paste_list %}
+        <tr>
+          <td><a href="/paste/{{ paste.hash }}/">{{ paste.title }}</a></td>
+           <td>{% if paste.owner %} {{paste.owner.username}}
+                {% else %} Anonymous {% endif %}</td>
+          <td>{{paste.creation_date}}</td>
+          <td>{{paste.syntax}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+      {% endif %}
+
 {% else %}
     <p>No pastes are available.</p>
 {% endif %}
+
+</div>

@@ -1,12 +1,69 @@
+
+<!--{% include "common/base.html" %}-->
+<!--<form action="" method="POST"> {% csrf_token %}-->
+
+<!--{%for error in form.non_field_errors%}-->
+<!--    <p style="color:red">{{error}}</p>-->
+<!--{% endfor %}-->
+
+<!--{% for field in form %}-->
+<!--<div>-->
+<!--    <p>{{field.name}}: </p>-->
+<!--    <p>{{field}}</p>-->
+<!--</div>-->
+<!--{% endfor %}-->
+<!--<input type="submit" value="Submit">-->
+<!--&lt;!&ndash;    <input type="hidden" name="_method" value="delete">&ndash;&gt;-->
+<!--&lt;!&ndash;    <input type="submit" value="Delete">&ndash;&gt;-->
+
+<!--</form>-->
+
+<!--<form action="" method="POST"> {% csrf_token %}-->
+<!--    <input type="hidden" name="_method" value="delete">-->
+<!--    <input type="submit" value="Delete">-->
+<!--</form>-->
+
+
+{% load widget_tweaks %}
+
 {% include "common/base.html" %}
 
-<p>Title: {{paste.title}}</p>
-<p>syntax: {{paste.syntax}}</p>
-<p><b>{{paste.text}}</b></p>
-<p>created in {{paste.creation_date}}</p>
-<p>expired in {{paste.expiration_date}}</p>
-<p>owned by {% if paste.owner %} {{paste.owner.username}}
-            {% else %} Anonymous {% endif %}</p>
-{% if can_edit %}
-<p><a href="/paste/{{paste.hash}}/edit">edit my paste</a></p>
+<div class="container ml-0 col-12">
+<form class="" action=""> {% csrf_token %}
+
+{% for field in form %}
+    {%if field.label != "Catalog" %}
+    {% if field.label != "Text" %}
+    <div class="form-group col-4">
+        {% else %}
+<div class="form-group col-12">
+     {% endif %}
+    <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
+<!--    <p class="mb-0">{% render_field field.label%}: </p>-->
+    <div class="controls">
+        {{field | add_class:"form-control"|attr:"readonly" }}
+    </div>
+</div>
+        {%endif%}
+{% endfor %}
+</form>
+{% if request.user == form.instance.owner %}
+<div class="col-6"><a href="/paste/{{form.instance.hash}}/edit">edit my paste</a></div>
 {% endif %}
+
+</div>
+
+
+
+<!--<div class = "container ml-0 col-12">-->
+<!--<p>Title: {{paste.title}}</p>-->
+<!--<p>syntax: {{paste.syntax}}</p>-->
+<!--<p><b>{{paste.text}}</b></p>-->
+<!--<p>created in {{paste.creation_date}}</p>-->
+<!--<p>expired in {{paste.expiration_date}}</p>-->
+<!--<p>owned by {% if paste.owner %} {{paste.owner.username}}-->
+<!--            {% else %} Anonymous {% endif %}</p>-->
+<!--{% if can_edit %}-->
+<!--<p><a href="/paste/{{paste.hash}}/edit">edit my paste</a></p>-->
+<!--{% endif %}-->
+<!--</div>-->

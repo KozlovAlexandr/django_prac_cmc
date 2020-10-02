@@ -2,7 +2,7 @@
 
 {% include "common/base.html" %}
 
-<div class="container ml-0 col-12">
+<div class="container ml-0 col-8">
 <form class="" action="" method="POST"> {% csrf_token %}
 
 {%for error in form.non_field_errors%}
@@ -11,7 +11,7 @@
 
 {% for field in form %}
     {% if field.label != "Text" %}
-    <div class="form-group col-4">
+    <div class="form-group col-6">
         {% else %}
 <div class="form-group col-12">
      {% endif %}
