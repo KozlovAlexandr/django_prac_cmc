@@ -62,7 +62,7 @@ class LoginView(View):
         else:
             context = {'form': authForm}
             return render(request, 'common/login.html', context)
-:
+
 
 @login_required(login_url=reverse_lazy('common:login'))
 def detail_profile(request):
