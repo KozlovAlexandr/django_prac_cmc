@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
 from .forms import SignUpForm, ProfileEditForm
@@ -61,15 +62,15 @@ class LoginView(View):
         else:
             context = {'form': authForm}
             return render(request, 'common/login.html', context)
+:
 
-
-@login_required(login_url='/login')
+@login_required(login_url=reverse_lazy('common:login'))
 def detail_profile(request):
 
     return render(request, 'common/detail_profile.html', {'profile' : request.user.profile })
 
 
-@login_required(login_url='/login')
+@login_required(login_url=reverse_lazy('common:login'))
 def profile_edit(request):
 
     if request.method == 'POST':

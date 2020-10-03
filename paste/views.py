@@ -8,6 +8,7 @@ from .forms import PasteEditForm, PasteCreateForm, CatalogForm
 from django.db import IntegrityError
 from django.shortcuts import redirect
 from django.views import View
+from django.urls import reverse_lazy
 
 
 def show_all(request):
@@ -26,7 +27,7 @@ def detail(request, paste_hash):
     return render(request, 'paste/detail.html', context)
 
 
-@login_required(login_url='/login')
+@login_required(login_url=reverse_lazy('common:login'))
 def show_my_pastes(request):
 
     paste_list = Paste.unexpired_objects.filter(owner=request.user, catalog__isnull=True)
@@ -89,7 +90,7 @@ def create(request):
         return render(request, "paste/create.html", {'form': form})
 
 
-@login_required(login_url='/login')
+@login_required(login_url=reverse_lazy('common:login'))
 def create_catalog(request):
 
     if request.method == 'GET':
@@ -109,7 +110,7 @@ def create_catalog(request):
         return redirect('paste:show_my_pastes')
 
 
-@login_required(login_url='/login')
+@login_required(login_url=reverse_lazy('common:login'))
 def detail_catalog(request, catalog_name):
 
     catalog = get_object_or_404(PasteCatalog, name=catalog_name, owner=request.user)

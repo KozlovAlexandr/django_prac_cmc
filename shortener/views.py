@@ -7,6 +7,8 @@ from .models import ShortUrl
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import RedirectView
 from django.core.exceptions import PermissionDenied
+from django.urls import reverse_lazy
+
 
 from .forms import UrlCreateForm, UrlEditForm
 
@@ -40,7 +42,7 @@ class CreateView(View):
         return render(request, "shortener/create.html", {'form': form})
 
 
-@login_required(login_url='/login')
+@login_required(login_url=reverse_lazy('common:login'))
 def show_my_urls(request):
 
     unexpired = ShortUrl.unexpired_objects.filter(owner=request.user).order_by('-creation_date')
@@ -59,6 +61,7 @@ def my_redirect(request, url_hash):
     return redirect(short_url.original_url)
 
 
+@login_required(login_url=reverse_lazy('common:login'))
 def edit(request, url_hash):
 
     url = get_object_or_404(ShortUrl, hash=url_hash, owner=request.user)
