@@ -1,34 +1,32 @@
-{% include "common/base.html" %}
 {% load widget_tweaks %}
 
-<div class="container ml-4 col-3">
+{% include "common/base.html" %}
 
-<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+<form hidden enctype="multipart/form-data" id="editForm" action="" method="post">{% csrf_token %}</form>
+
+<div class="container ml-0 col-8">
 
 {%for error in form.non_field_errors%}
-    <p style="color:red">{{error}}</p>
+    <p style="color:#ff0000">{{error}}</p>
 {% endfor %}
 
-<fieldset>
 {% for field in form %}
-<div class="form-group">
-    <label class="control-label">{{field.name | title}}: </label>
-     {% if field.name != "avatar" %}
-    <div class = "controls">
-        {% if field.name != "avatar" %}
+    <div class="form-group col-6">
+    <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
+<!--    <p class="mb-0">{% render_field field.label%}: </p>-->
+    <div class="controls">
+        {% if field.label == "avatar" %}
+    {% render_field field class+="form-control" form+="editForm"%}
         {% else %}
-        {% render_field field %}
+        {% render_field field form+="editForm"%}
         {% endif %}
     </div>
-    <p>{{field.errors}}</p>
 </div>
 {% endfor %}
-<input type="submit" value="Submit">
-
-</fieldset>
-<!--    <input type="hidden" name="_method" value="delete">-->
-<!--    <input type="submit" value="Delete">-->
-
-</form>
+    <div class="form-group row ml-0 col-6">
+        <div class="">
+            <button class="btn btn-primary" form="editForm" type="Submit">Submit</button>
+        </div>
+    </div>
 
 </div>

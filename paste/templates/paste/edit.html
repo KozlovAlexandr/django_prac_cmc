@@ -27,11 +27,10 @@
 
 {% include "common/base.html" %}
 
-<form id="editForm" action="" method="post"></form>
-<form id="deleteForm" action="" method="post"></form>
+<form id="editForm" action="" method="post">{% csrf_token %}</form>
+<form id="deleteForm" action="" method="post">{% csrf_token %}</form>
 
 <div class="container ml-0 col-8">
-<form class="" action="" method="POST"> {% csrf_token %}
 
 {%for error in form.non_field_errors%}
     <p style="color:#ff0000">{{error}}</p>
@@ -46,23 +45,20 @@
     <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
 <!--    <p class="mb-0">{% render_field field.label%}: </p>-->
     <div class="controls">
-    {% render_field field class+="form-control"%}
+    {% render_field field class+="form-control" form+="editForm"%}
     </div>
 </div>
 {% endfor %}
     <div class="form-group row ml-0 col-6">
         <div class="">
-            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary" form="editForm" type="Submit">Submit</button>
         </div>
 
-        <form action="" method="POST"> {% csrf_token %}
-            <input type="hidden" name="_method" value="delete">
-            <div class="ml-2">
-                <button class="btn btn-danger">Delete paste</button>
-            </div>
-        </form>
+        <input type="hidden" name="_method" value="delete" form="deleteForm">
+        <div class="ml-2">
+            <button class="btn btn-danger" form="deleteForm" type="Submit">Delete paste</button>
+        </div>
     </div>
-</form>
 
 </div>
 

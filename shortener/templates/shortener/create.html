@@ -1,16 +1,29 @@
+{% load widget_tweaks %}
+
 {% include "common/base.html" %}
-<form action="" method="POST"> {% csrf_token %}
+
+<div class="container ml-0 col-12">
+<form class="" action="" method="POST"> {% csrf_token %}
 
 {%for error in form.non_field_errors%}
     <p style="color:#ff0000">{{error}}</p>
 {% endfor %}
 
 {% for field in form %}
-<div>
-    <p>{{field.label}}: </p>
-    <p>{{field}}</p>
+    {% if field.label != "Text" %}
+    <div class="form-group col-4">
+        {% else %}
+<div class="form-group col-12">
+     {% endif %}
+    <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
+<!--    <p class="mb-0">{% render_field field.label%}: </p>-->
+    <div class="controls">
+    {% render_field field class+="form-control"%}
+    </div>
 </div>
 {% endfor %}
-
-<input type="submit" value="Create">
+    <div class="form-group col-3">
+        <button class="btn btn-primary">Create</button>
+    </div>
 </form>
+</div>

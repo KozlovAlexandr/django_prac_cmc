@@ -1,24 +1,38 @@
+{% load widget_tweaks %}
+
 {% include "common/base.html" %}
-<form action="" method="POST"> {% csrf_token %}
+
+<form id="editForm" action="" method="post">{% csrf_token %}</form>
+<form id="deleteForm" action="" method="post">{% csrf_token %}</form>
+
+<div class="container ml-0 col-8">
 
 {%for error in form.non_field_errors%}
-    <p style="color:red">{{error}}</p>
+    <p style="color:#ff0000">{{error}}</p>
 {% endfor %}
 
-    <p>Original url: {{form.instance.original_url}}</p>
 {% for field in form %}
-<div>
-    <p>{{field.name}}: </p>
-    <p>{{field}}</p>
+    {% if field.label != "Text" %}
+    <div class="form-group col-6">
+        {% else %}
+<div class="form-group col-12">
+     {% endif %}
+    <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
+<!--    <p class="mb-0">{% render_field field.label%}: </p>-->
+    <div class="controls">
+    {% render_field field class+="form-control" form+="editForm"%}
+    </div>
 </div>
 {% endfor %}
-<input type="submit" value="Submit">
-<!--    <input type="hidden" name="_method" value="delete">-->
-<!--    <input type="submit" value="Delete">-->
+    <div class="form-group row ml-0 col-6">
+        <div class="">
+            <button class="btn btn-primary" form="editForm" type="Submit">Submit</button>
+        </div>
 
-</form>
+        <input type="hidden" name="_method" value="delete" form="deleteForm">
+        <div class="ml-2">
+            <button class="btn btn-danger" form="deleteForm" type="Submit">Delete Url</button>
+        </div>
+    </div>
 
-<form action="" method="POST"> {% csrf_token %}
-    <input type="hidden" name="_method" value="delete">
-    <input type="submit" value="Delete">
-</form>
+</div>
