@@ -19,16 +19,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 import os
 
-PASTE_PREFIX = ""
-SHRT_PREFIX = ""
-
-if os.name != 'nt':
-    PASTE_PREFIX = 'paste/'
-    SHRT_PREFIX = 'shrt/'
-
 urlpatterns = [
-    path(PASTE_PREFIX + 'admin/', admin.site.urls),
-    path(PASTE_PREFIX + 'paste/', include('paste.urls')),
-    path(SHRT_PREFIX + 'shrt/', include('shortener.urls')),
-    path(PASTE_PREFIX + '', include('common.urls')),
-] + static(PASTE_PREFIX + settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path(settings.PASTE_PREFIX + 'admin/', admin.site.urls),
+    path(settings.PASTE_PREFIX + 'paste/', include('paste.urls')),
+    path(settings.SHRT_PREFIX + 'shrt/', include('shortener.urls')),
+    path(settings.PASTE_PREFIX + '', include('common.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -27,6 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+PASTE_PREFIX = ""
+SHRT_PREFIX = ""
+
+if os.name != 'nt':
+    PASTE_PREFIX = 'paste/'
+    SHRT_PREFIX = 'shrt/'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -128,4 +135,4 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_URL = '/media/'
+MEDIA_URL = PASTE_PREFIX + '/media/'
