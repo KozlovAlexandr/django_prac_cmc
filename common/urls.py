@@ -12,5 +12,5 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
     path('profile', views.detail_profile, name='detail_profile'),
     path('profile/edit', views.profile_edit, name='profile_edit'),
-    path('', RedirectView.as_view(url=reverse_lazy('paste:show_all'))),
+    path('', RedirectView.as_view(url=reverse_lazy('paste:show_all')), name='home'),
 ]
