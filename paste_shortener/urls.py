@@ -23,8 +23,8 @@ PASTE_PREFIX = ""
 SHRT_PREFIX = ""
 
 if os.name != 'nt':
-    PASTE_PREFIX = '/paste'
-    SHRT_PREFIX = '/shrt'
+    PASTE_PREFIX = 'paste/'
+    SHRT_PREFIX = 'shrt/'
 
 urlpatterns = [
     path(PASTE_PREFIX + 'admin/', admin.site.urls),
