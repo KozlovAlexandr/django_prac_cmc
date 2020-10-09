@@ -12,17 +12,6 @@ from .forms import SignUpForm, ProfileEditForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
-class HomeView(View):
-
-    def get(self, request):
-
-        if request.user.is_authenticated:
-            return render(request, "common/home.html", {'user': request.user})
-
-        else:
-            return redirect('common:login')
-
-
 def logout_view(request):
 
     logout(request)
