@@ -17,10 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+import os
+
+PASTE_PREFIX = ""
+SHRT_PREFIX = ""
+
+if os.name != 'nt':
+    PASTE_PREFIX = '/paste'
+    SHRT_PREFIX = '/shrt'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('paste/', include('paste.urls')),
-    path('shrt/', include('shortener.urls')),
-    path('', include('common.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path(PASTE_PREFIX + 'admin/', admin.site.urls),
+    path(PASTE_PREFIX + 'paste/', include('paste.urls')),
+    path(SHRT_PREFIX + 'shrt/', include('shortener.urls')),
+    path(PASTE_PREFIX + '', include('common.urls')),
+] + static(PASTE_PREFIX + settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
