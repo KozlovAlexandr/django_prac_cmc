@@ -26,13 +26,18 @@
 
 {% load widget_tweaks %}
 
+<link rel="stylesheet"
+      href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/default.min.css">
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
 {% include "common/base.html" %}
 
 <div class="container ml-0 col-12">
 <form class="" action=""> {% csrf_token %}
 
 {% for field in form %}
-    {%if field.label != "Catalog" %}
+    {% if field.label != "Catalog" %}
     {% if field.label != "Text" %}
     <div class="form-group col-4">
         {% else %}
@@ -40,13 +45,19 @@
      {% endif %}
     <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
 <!--    <p class="mb-0">{% render_field field.label%}: </p>-->
+
     <div class="controls">
-        {{field | add_class:"form-control"|attr:"readonly" }}
+        {% if field.label != "Text" %}
+            {{field | add_class:"form-control"|attr:"readonly" }}
+        {% else %}
+            <pre><code class="{{form.syntax}}">{{field.value}}</code></pre>
+        {% endif %}
     </div>
 </div>
         {%endif%}
 {% endfor %}
 </form>
+
 {% if request.user == form.instance.owner %}
 <div class="col-6"><a href="/paste/{{form.instance.hash}}/edit">edit my paste</a></div>
 {% endif %}

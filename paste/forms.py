@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from .models import Paste, PasteCatalog
 from django import forms
 from django.forms import ValidationError
-
+import datetime
 
 class PasteEditForm(ModelForm):
 
@@ -21,7 +21,7 @@ class PasteEditForm(ModelForm):
             'expiration_date': forms.DateTimeInput(attrs={
                 'type': 'datetime-local',
                 'class': 'form-control'
-            }, format='%Y-%m-%dT%H:%M'),
+        }, format='%Y-%m-%dT%H:%M'),
         }
 
 
@@ -44,7 +44,8 @@ class PasteCreateForm(ModelForm):
         widgets =  {
             'expiration_date': forms.DateTimeInput(attrs={
                 'type': 'datetime-local',
-                'class': 'form-control'
+                'class': 'form-control',
+                'value': (datetime.datetime.now() + datetime.timedelta(days=365)).strftime("%Y-%m-%dT%H:%M"),
             }, format='%Y-%m-%dT%H:%M'),
         }
 
