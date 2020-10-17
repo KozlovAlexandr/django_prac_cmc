@@ -10,6 +10,44 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import SignUpForm, ProfileEditForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetDoneView\
+    , PasswordResetConfirmView
+
+
+class MyPwChangeView(PasswordChangeView):
+
+    def __init__(self):
+
+        super(MyPwChangeView, self).__init__()
+        self.template_name = 'common/change_pass.html'
+        self.success_url = reverse_lazy('common:detail_profile')
+
+
+class MyPwResetConfirmView(PasswordResetConfirmView):
+
+    def __init__(self):
+
+        super(PasswordResetConfirmView, self).__init__()
+        self.success_url = reverse_lazy('common:login')
+
+
+class MyPwResetView(PasswordResetView):
+
+    def __init__(self):
+
+        super(PasswordResetView, self).__init__()
+        self.template_name = 'common/reset_pass.html'
+        self.success_url = reverse_lazy('common:reset_pass_done')
+        self.subject_template_name = 'common/password_reset_subject.html'
+        self.email_template_name = 'common/password_reset_email.html'
+
+
+class MyPwResetDoneView(PasswordResetDoneView):
+
+    def __init__(self):
+
+        super(PasswordResetDoneView, self).__init__()
+        self.template_name = 'common/reset_done.html'
 
 
 def logout_view(request):

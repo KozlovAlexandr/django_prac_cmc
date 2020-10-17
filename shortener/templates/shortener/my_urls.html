@@ -50,7 +50,7 @@
               <a href="/shrt/{{ url.hash }}/"> {{request.get_host}}/shrt/{{ url.hash }}</a>
               (<a href="{% url 'shortener:edit' url.hash %}">Edit</a>)
           </td>
-           <td><a href="http://{{url.original_url}}">{{url.original_url}}</a></td>
+           <td><a href="{{url.original_url}}">{{url.original_url}}</a></td>
           <td>{{url.expiration_date}}</td>
           <td>{{url.clicked}}</td>
         </tr>
@@ -76,7 +76,7 @@
           <td><a href="/shrt/{{ url.hash }}/">{{request.get_host}}/shrt/{{ url.hash }}</a>
                         (<a href="{% url 'shortener:edit' url.hash %}">Edit</a>)
           </td>
-           <td><a href="{{url.original_url}}">{{url.original_url}}</a></td>
+           <td><a href="">{{url.original_url}}</a></td>
           <td>{{url.expiration_date}}</td>
           <td>{{url.clicked}}</td>
         </tr>

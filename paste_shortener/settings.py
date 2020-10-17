@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -136,4 +137,14 @@ STATIC_URL = PASTE_PREFIX + 'static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = PASTE_PREFIX + 'media/'
+
+DEFAULT_FROM_EMAIL = "emailfordjango@mail.ru"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'emailfordjango@mail.ru'
+EMAIL_HOST_PASSWORD = "lozhkinlozhkin"
+
 

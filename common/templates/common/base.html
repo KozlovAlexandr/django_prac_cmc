@@ -37,7 +37,7 @@
               {% if request.user.profile.avatar %}
                 <img class="avatar" src="{{request.user.profile.avatar.url}}">
               {% else %}
-                <img class="m-0 avatar" src="/media/images/default.jpg">
+                <img class="m-0 avatar" src="{{MEDIA_URL}}images/default.jpg">
               {% endif %}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink_avatarMenu">

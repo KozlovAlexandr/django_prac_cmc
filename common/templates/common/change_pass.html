@@ -1,0 +1,33 @@
+{% include "common/base.html" %}
+
+{% load widget_tweaks %}
+
+<div class="container mt-4 col-3">
+  {{ form.non_field_errors }}
+  <form class="" action='' method="POST"> {% csrf_token %}
+    <div class = "card">
+    <div class = "card-body">
+  <fieldset>
+      {% for field in form %}
+
+          <div class="form-group">
+          <!-- Password-->
+          <label class="control-label" for="{{field.name}}">{{field.label}}</label>
+          <div class="controls">
+            {% render_field field class+="form-control"%}
+          </div>
+          {% for error in field.errors %}
+           <p style="color: red">{{error}}</p>
+          {% endfor %}
+          </div>
+
+      {% endfor %}
+    <div class="form-group text-center">
+        <button class="btn btn-primary col-12">Submit</button>
+    </div>
+
+  </fieldset>
+    </div>
+    </div>
+</form>
+</div>

@@ -10,7 +10,7 @@ class PasteEditForm(ModelForm):
 
         super(ModelForm, self).__init__(*args, **kwargs)
         choices = PasteCatalog.objects.filter(owner=user)
-        cur = self.save(commit=False).catalog
+        cur = self.instance.catalog
         self.fields['catalog'] = forms.ModelChoiceField(queryset=choices, initial=cur,
                                                         required=False, empty_label="No folder")
 
@@ -27,6 +27,11 @@ class PasteEditForm(ModelForm):
 
 class PasteCreateForm(ModelForm):
 
+    EXP_CHOICES =(('Hour', '1 Hour'), ('Week', '1 Week'), ('Month', '1 Month'), ('Year', '1 Year'))
+    EXP_DICT = {'Hour': datetime.timedelta(hours=1), 'Week': datetime.timedelta(weeks=1), 'Month' : datetime.timedelta(days=30), 'Year': datetime.timedelta(days=365)}
+
+    choice_field = forms.ChoiceField(choices=EXP_CHOICES, label="Paste expiration", initial='Month')
+
     def __init__(self, user, *args, **kwargs):
 
         super(ModelForm, self).__init__(*args, **kwargs)
@@ -34,20 +39,27 @@ class PasteCreateForm(ModelForm):
         if not user.is_authenticated:
             user = None
         choices = PasteCatalog.objects.filter(owner=user)
-        cur = self.save(commit=False).catalog
+        cur = self.instance.catalog
+
         self.fields['catalog'] = forms.ModelChoiceField(queryset=choices, initial=cur,
                                                         required=False, empty_label="No folder")
 
+    def save(self, commit=True):
+
+        if commit:
+            return super(PasteCreateForm, self).save(commit=True)
+
+        paste = super(PasteCreateForm, self).save(commit=False)
+
+        print(self.cleaned_data['choice_field'])
+        paste.expiration_date = datetime.datetime.now() + self.EXP_DICT[self.cleaned_data['choice_field']]
+
+        return paste
+
     class Meta:
+
         model = Paste
-        fields = ['title', 'syntax', 'expiration_date', 'text', 'catalog']
-        widgets =  {
-            'expiration_date': forms.DateTimeInput(attrs={
-                'type': 'datetime-local',
-                'class': 'form-control',
-                'value': (datetime.datetime.now() + datetime.timedelta(days=365)).strftime("%Y-%m-%dT%H:%M"),
-            }, format='%Y-%m-%dT%H:%M'),
-        }
+        fields = ['title', 'syntax', 'text', 'catalog']
 
 
 class CatalogForm(ModelForm):

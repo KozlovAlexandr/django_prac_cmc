@@ -59,7 +59,7 @@
 </form>
 
 {% if request.user == form.instance.owner %}
-<div class="col-6"><a href="/paste/{{form.instance.hash}}/edit">edit my paste</a></div>
+<div class="col-6"><a href="{% url 'paste:edit' form.instance.hash %}">edit my paste</a></div>
 {% endif %}
 
 </div>
