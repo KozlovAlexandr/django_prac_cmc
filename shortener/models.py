@@ -29,7 +29,7 @@ class ExpiredUrlManager(models.Manager):
 
 class ShortUrl(models.Model):
 
-    hash = models.CharField(max_length=30, default=get_brief_url)
+    hash = models.CharField(max_length=30, default=get_brief_url, unique=True)
     original_url = models.URLField(verbose_name="Original url", null=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     expiration_date = models.DateTimeField(null=True)
