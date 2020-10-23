@@ -40,6 +40,9 @@ class ShortUrl(models.Model):
     unexpired_objects = UnexpiredUrlManager()
     expired_objects = ExpiredUrlManager()
 
+    def __str__(self):
+        return self.hash
+
     class Meta:
         indexes = [
             models.Index(fields=['creation_date']),

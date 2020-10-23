@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from .models import ShortUrl
 from django import forms
@@ -5,6 +6,13 @@ import datetime
 
 
 class UrlEditForm(ModelForm):
+
+    def clean(self):
+        hash = self.cleaned_data.get('hash')
+        if ShortUrl.objects.filter(hash=hash).exists():
+            raise ValidationError("Try another name")
+        return self.cleaned_data
+
     class Meta:
         model = ShortUrl
         fields = ['hash', 'expiration_date']
