@@ -28,6 +28,7 @@ class MyPwResetConfirmView(PasswordResetConfirmView):
     def __init__(self):
 
         super(PasswordResetConfirmView, self).__init__()
+        self.template_name = "common/reset_confirm.html"
         self.success_url = reverse_lazy('common:login')
 
 
