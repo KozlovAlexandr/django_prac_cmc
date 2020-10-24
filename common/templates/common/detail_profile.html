@@ -170,7 +170,9 @@ opacity:0.9;
             <div class="ml-3 w-100">
                 <div class="p-2 mt-2  justify-content-between rounded stats">
                     <div class=""> Email: {{profile.user.email}} </div>
+                    {% if profile.website %}
                     <div class=""> Website: <a href ="http://{{profile.website}}">{{profile.website}}</a> </div>
+                    {% endif %}
                 </div>
                 <div class="button mt-2 d-flex flex-row align-items-center">
                     <a  href="{% url 'common:profile_edit' %}"><button class="btn btn-sm btn-outline-primary w-100">Edit profile</button></a>
@@ -181,12 +183,14 @@ opacity:0.9;
     </div>
 </div>
 
+{% if profile.about %}
 <div class="bs-callout bs-callout-danger m-2">
         <h4>About</h4>
         <p>
             {{profile.about}}
         </p>
 </div>
+{% endif %}
 
 
 <!--
