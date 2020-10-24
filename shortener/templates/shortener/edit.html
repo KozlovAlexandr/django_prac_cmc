@@ -20,6 +20,7 @@
     <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
 <!--    <p class="mb-0">{% render_field field.label%}: </p>-->
     <div class="controls">
+        {{field.errors}}
     {% render_field field class+="form-control" form+="editForm"%}
     </div>
 </div>

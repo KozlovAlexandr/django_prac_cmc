@@ -2,13 +2,22 @@
 
 <div class = "container ml-0 col-12">
 
+{% url 'paste:show_all' as show_all_url %}
+
 {% if paste_list or catalog_list %}
 
-    {% if catalog_list %}
+  {% if request.path != show_all_url %}
   <p>
-  <button class="btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Show folders
+    {% if catalog_list %}
+  <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Show my folders
   </button>
+    {% endif %}
+    <a href="{% url 'paste:create_catalog' %}">
+  <button class="btn btn-sm btn-primary" type="button">
+    <b>+</b> folder
+  </button>
+      </a>
   </p>
     <ul class="list-group collapse" id="collapseExample">
     {% for catalog in catalog_list %}
@@ -18,8 +27,7 @@
   </li>
     {% endfor %}
     </ul>
-    {% endif %}
-
+  {% endif %}
 
   {% if paste_list %}
     <table class="table">

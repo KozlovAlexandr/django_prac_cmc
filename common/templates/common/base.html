@@ -1,3 +1,18 @@
+<script>
+function copyToClipboard (str)
+{
+   str = document.getElementById(str)
+   var el = document.createElement('textarea');
+   el.value = str;
+   el.setAttribute('readonly', '');
+   el.style = {position: 'absolute', left: '-9999px'};
+   document.body.appendChild(el);
+   el.select();
+   document.execCommand('copy');
+   document.body.removeChild(el);
+}
+</script>
+
 <style>
 .avatar {
   vertical-align: middle;
@@ -13,6 +28,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script><body style="background-color: #f8fafc;">
 
+<style>
+    .btn-group-xs > .btn, .btn-xs {
+  padding: .25rem .4rem;
+    margin-bottom: 4px;
+  font-size: .875rem;
+  line-height: .8rem;
+  border-radius: .3rem;
+}
+</style>
 
 <nav class="navbar navbar-expand navbar-light bg-light mt-0" style="height:66px">
       <a class="navbar-brand" href="{% url 'paste:show_all' %}">Shurl & Paste</a>
@@ -22,10 +46,10 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-20">
       <li class="nav-item mr-2">
-        <a href="{% url 'paste:create' %}" style="text-decoration:none" class="btn btn-success">Create paste</a>
+        <a href="{% url 'paste:create' %}" style="text-decoration:none" class="btn btn-success"><b>+</b> paste</a>
      </li>
       <li class="nav-item ml-2 mt-0 ml-0">
-        <a href="{% url 'shortener:create' %}" style="text-decoration:none" class="btn btn-info">Create short url</a>
+        <a href="{% url 'shortener:create' %}" style="text-decoration:none" class="btn btn-info"><b>+</b> short url</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto mt-0">

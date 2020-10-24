@@ -95,7 +95,7 @@ def create_catalog(request):
 
     if request.method == 'GET':
         form = CatalogForm(request.user)
-        return render(request, "paste/create.html", {'form': form})
+        return render(request, "paste/create_folder.html", {'form': form})
 
     if request.method == 'POST':
 
@@ -105,7 +105,7 @@ def create_catalog(request):
                 form.save()
             except IntegrityError:
                 form.add_error(None, "Invalid data")
-                return render(request, "paste/create.html", {'form': form})
+                return render(request, "paste/create_folder.html", {'form': form})
 
         return redirect('paste:show_my_pastes')
 

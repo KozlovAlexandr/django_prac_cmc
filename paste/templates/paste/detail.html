@@ -51,6 +51,8 @@
             {{field | add_class:"form-control"|attr:"readonly" }}
         {% else %}
             <pre><code class="{{form.syntax}}">{{field.value}}</code></pre>
+            <label class="control-label"  for="">Raw text</label>
+            <textarea style="height:300px; width: 100%;">{{field.value}}</textarea>
         {% endif %}
     </div>
 </div>
@@ -59,7 +61,7 @@
 </form>
 
 {% if request.user == form.instance.owner %}
-<div class="col-6"><a href="{% url 'paste:edit' form.instance.hash %}">edit my paste</a></div>
+<div class="col-6 mb-2"><a href="{% url 'paste:edit' form.instance.hash %}">edit my paste</a></div>
 {% endif %}
 
 </div>

@@ -11,12 +11,10 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
 
     def clean(self):
+        super(SignUpForm, self).clean()
         email = self.cleaned_data.get('email')
-        username = self.cleaned_data.get('username')
         if User.objects.filter(email=email).exists():
-            raise ValidationError("Email exists")
-        if User.objects.filter(username=username).exists():
-            raise ValidationError("Username exists")
+            raise ValidationError({"email" : "Email exists"})
         return self.cleaned_data
 
     class Meta:

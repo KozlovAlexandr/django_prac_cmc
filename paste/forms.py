@@ -88,6 +88,8 @@ class CatalogForm(ModelForm):
                 if paste.owner != self.user:
                     raise ValidationError("Permission denied")
 
+        return cleaned_data
+
 
     def save(self, commit=True):
 
@@ -96,7 +98,7 @@ class CatalogForm(ModelForm):
         catalog.save()
 
         for k in self.fields:
-            if k != 'name' and self.fields[k]:
+            if k != 'name' and self.cleaned_data[k]:
 
                 paste = Paste.objects.get(hash=k)
 

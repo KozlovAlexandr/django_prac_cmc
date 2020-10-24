@@ -29,6 +29,8 @@
 <!--{% else %}-->
 <!--    <p>You have no short urls</p>-->
 <!--{% endif %}-->
+
+
 <div class="container ml-0 col-12">
 {% if expired or unexpired %}
 
@@ -38,6 +40,7 @@
       <thead>
         <tr>
           <th scope="col">Short url</th>
+          <th scope="col"></th>
           <th scope="col">Original url</th>
           <th scope="col">Expires at</th>
           <th scope="col">Clicks</th>
@@ -47,9 +50,13 @@
         {% for url in unexpired %}
         <tr>
           <td>
-              <a href="/shrt/{{ url.hash }}/"> {{request.get_host}}/shrt/{{ url.hash }}</a>
-              (<a href="{% url 'shortener:edit' url.hash %}">Edit</a>)
-          </td>
+              <a href="/shrt/{{ url.hash }}/" id="{{url.hash}}"> {{request.get_host}}/shrt/{{ url.hash }}</a>
+         </td>
+            <td>
+              <a href="{% url 'shortener:edit' url.hash %}"><button type="button" class="btn btn-xs btn-outline-primary">Edit</button></a>
+              <button type="button" class="btn btn-xs btn-primary" onclick="copyToClipboard('{{url.hash}}')">Copy</button>
+
+            </td>
            <td><a href="{{url.original_url}}">{{url.original_url}}</a></td>
           <td>{{url.expiration_date}}</td>
           <td>{{url.clicked}}</td>
@@ -73,10 +80,15 @@
       <tbody>
         {% for url in expired %}
         <tr>
-          <td><a href="/shrt/{{ url.hash }}/">{{request.get_host}}/shrt/{{ url.hash }}</a>
-                        (<a href="{% url 'shortener:edit' url.hash %}">Edit</a>)
-          </td>
-           <td><a href="">{{url.original_url}}</a></td>
+          <td>
+              <a href="/shrt/{{ url.hash }}/" id="{{url.hash}}"> {{request.get_host}}/shrt/{{ url.hash }}</a>
+         </td>
+            <td>
+              <a href="{% url 'shortener:edit' url.hash %}"><button type="button" class="btn btn-xs btn-outline-primary">Edit</button></a>
+              <button type="button" class="btn btn-xs btn-primary" onclick="copyToClipboard('{{url.hash}}')">Copy</button>
+
+            </td>
+           <td><a href="{{url.original_url}}">{{url.original_url}}</a></td>
           <td>{{url.expiration_date}}</td>
           <td>{{url.clicked}}</td>
         </tr>

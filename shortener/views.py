@@ -38,7 +38,6 @@ class CreateView(View):
             except IntegrityError as e:
                 pass
 
-        form.add_error(None, "Invalid data")
         return render(request, "shortener/create.html", {'form': form})
 
 
@@ -78,7 +77,7 @@ def edit(request, url_hash):
                 return redirect('shortener:show')
 
             except IntegrityError:
-                form.add_error(None, "Invalid data")
+                pass
 
         return render(request, "shortener/edit.html", {'form': form})
 

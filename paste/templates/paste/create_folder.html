@@ -10,16 +10,20 @@
 {% endfor %}
 
 {% for field in form %}
-    {% if field.label != "Text" %}
-    <div class="form-group col-6">
-        {% else %}
-<div class="form-group col-12">
-     {% endif %}
+<div class="form-group col-6">
+    {% if field.label == "Name" %}
     <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
-<!--    <p class="mb-0">{% render_field field.label%}: </p>-->
     <div class="controls">
     {% render_field field class+="form-control"%}
     </div>
+    {% else %}
+    <div class="form-check">
+    {% render_field field class+="form-check-input" %}
+    <label class="form-check-label">
+        <a href="{% url 'paste:edit' field.name %}"> {{field.label}} </a>
+    </label>
+    </div>
+    {% endif %}
 </div>
 {% endfor %}
     <div class="form-group col-3">
