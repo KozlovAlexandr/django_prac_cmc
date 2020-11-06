@@ -52,5 +52,5 @@ def compile_and_run(text):
         return {'error': 'Timeout'}
 
     except:
-
+        raise
         return {'error': 'Internal error'}
