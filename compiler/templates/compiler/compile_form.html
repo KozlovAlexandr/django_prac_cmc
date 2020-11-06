@@ -93,6 +93,11 @@
                     return;
                 }
 
+                if (result['status'] === 'FAILURE') {
+                    alert('FAILURE')
+                    return;
+                }
+
                 setTimeout(doPoll, 500, task_id);
             },
             error: function(result) {
