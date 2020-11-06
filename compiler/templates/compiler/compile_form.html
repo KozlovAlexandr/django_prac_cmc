@@ -37,8 +37,7 @@
                 {% if name == 'stdout' %} Stdout {% endif %}
                 {% if name == 'stderr' %} Stderr {% endif %}
             </label>
-            <div class="controls" id={{ name }}>
-            </div>
+            <div style="white-space: pre;" class="controls" id={{ name }}></div>
         </div>
 
         {% endfor %}
