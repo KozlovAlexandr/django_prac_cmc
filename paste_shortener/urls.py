@@ -22,6 +22,7 @@ import os
 urlpatterns = [
     path(settings.PASTE_PREFIX + 'admin/', admin.site.urls),
     path(settings.PASTE_PREFIX + 'paste/', include('paste.urls')),
+    path(settings.PASTE_PREFIX + 'compile/', include('compiler.urls')),
     path('shrt/', include('shortener.urls')),
     path(settings.PASTE_PREFIX + '', include('common.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

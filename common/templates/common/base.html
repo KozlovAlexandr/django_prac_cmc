@@ -24,7 +24,7 @@ function copyToClipboard (str)
 
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script><body style="background-color: #f8fafc;">
 
@@ -45,12 +45,15 @@ function copyToClipboard (str)
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav ml-20">
-      <li class="nav-item mr-2">
+      <li class="nav-item">
         <a href="{% url 'paste:create' %}" style="text-decoration:none" class="btn btn-success"><b>+</b> paste</a>
      </li>
       <li class="nav-item ml-2 mt-0 ml-0">
         <a href="{% url 'shortener:create' %}" style="text-decoration:none" class="btn btn-info"><b>+</b> short url</a>
       </li>
+    <li class="nav-item ml-2 mt-0 ml-0">
+        <a href="{% url 'compiler:compile_form' %}" style="text-decoration:none" class="btn btn-secondary">compile</a>
+    </li>
     </ul>
     <ul class="navbar-nav ml-auto mt-0">
       {% if request.user.is_authenticated %}
