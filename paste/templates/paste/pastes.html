@@ -2,11 +2,11 @@
 
 <div class = "container ml-0 col-12">
 
-{% url 'paste:show_all' as show_all_url %}
+{% url 'paste:show_page' page_obj.number as page_url %}
 
 {% if paste_list or catalog_list %}
 
-  {% if request.path != show_all_url %}
+  {% if request.path != page_url %}
   <p>
     {% if catalog_list %}
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -31,7 +31,25 @@
 
   {% if paste_list %}
     <table class="table">
-       <caption style="caption-side: top">Pastes</caption>
+       <caption style="caption-side: top">Pastes
+           {% if request.path == page_url %}
+                {% if page_obj.has_previous %}
+                    <a class = "ml-2 mr-2" href={% url 'paste:show_page' page_obj.previous_page_number %}>{{page_obj.previous_page_number}} </a>
+                {% endif %}
+                  <span class="ml-2 mr-2">{{  page_obj.number }}</span>
+                {% if page_obj.has_next %}
+                    <a class = "ml-2 mr-2" href={% url 'paste:show_page' page_obj.next_page_number %}>{{ page_obj.next_page_number}}</a>
+                {% endif %}
+           {%  else %}
+               {% if page_obj.has_previous %}
+                   <a class = "ml-2 mr-2" href={% url 'paste:show_my_page' page_obj.previous_page_number %}>{{page_obj.previous_page_number}} </a>
+               {% endif %}
+               <span class="ml-2 mr-2">{{  page_obj.number }}</span>
+               {% if page_obj.has_next %}
+                   <a class = "ml-2 mr-2" href={% url 'paste:show_my_page' page_obj.next_page_number %}>{{ page_obj.next_page_number}}</a>
+               {% endif %}
+           {% endif %}
+       </caption>
       <thead>
         <tr>
           <th scope="col">Title</th>

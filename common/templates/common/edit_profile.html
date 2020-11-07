@@ -4,29 +4,37 @@
 
 <form hidden enctype="multipart/form-data" id="editForm" action="" method="post">{% csrf_token %}</form>
 
-<div class="container ml-0 col-8">
+<div class="container mt-4 col-3">
+    {{ form.non_field_errors }}
+    <form class="" action='' method="POST"> {% csrf_token %}
+        <div class = "card">
+            <div class = "card-body">
+                <fieldset>
+                    {% for field in form %}
+                        {% if field.label == "Avatar" %}
+                        <label class="control-label" for="{{field.name}}">{{field.label}}</label>
+                            <div class = "mt-2 mb-3">
+                        {% render_field field class="" form+="editForm"%}
+                            </div>
+                        {% else %}
+                        <div class="form-group">
+                            <!-- Password-->
+                            <label class="control-label" for="{{field.name}}">{{field.label}}</label>
+                            <div class="controls">
+                                {% render_field field class+="form-control" form+="editForm"%}
+                            </div>
+                            {% for error in field.errors %}
+                                <p style="color: red">{{error}}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="form-group text-center">
+                        <button class="btn btn-primary col-12 " form="editForm">Submit</button>
+                    </div>
 
-{%for error in form.non_field_errors%}
-    <p style="color:#ff0000">{{error}}</p>
-{% endfor %}
-
-{% for field in form %}
-    <div class="form-group col-6">
-    <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
-<!--    <p class="mb-0">{% render_field field.label%}: </p>-->
-    <div class="controls">
-        {% if field.label == "avatar" %}
-    {% render_field field class+="form-control" form+="editForm"%}
-        {% else %}
-        {% render_field field form+="editForm"%}
-        {% endif %}
-    </div>
-</div>
-{% endfor %}
-    <div class="form-group row ml-0 col-6">
-        <div class="">
-            <button class="btn btn-primary" form="editForm" type="Submit">Submit</button>
+                </fieldset>
+            </div>
         </div>
-    </div>
-
+    </form>
 </div>

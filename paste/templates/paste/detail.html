@@ -51,8 +51,14 @@
             {{field | add_class:"form-control"|attr:"readonly" }}
         {% else %}
             <pre><code class="{{form.syntax}}">{{field.value}}</code></pre>
+            <div class="controls">
+                <button type="button" class="btn btn-primary mr-2" onclick="copyToClipboard('raw_paste')">Copy</button>
+                <a href="{% url 'paste:download' form.instance.hash %}">Download as text</a>
+            </div>
+            <div style="display: none">
             <label class="control-label"  for="">Raw text</label>
-            <textarea style="height:300px; width: 100%;">{{field.value}}</textarea>
+            <textarea id="raw_paste" style="height:300px; width: 100%;">{{field.value}}</textarea>
+            </div>
         {% endif %}
     </div>
 </div>
@@ -65,6 +71,8 @@
 {% endif %}
 
 </div>
+
+
 
 
 

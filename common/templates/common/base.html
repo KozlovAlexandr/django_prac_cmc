@@ -1,9 +1,9 @@
 <script>
 function copyToClipboard (str)
 {
-   str = document.getElementById(str)
+   str = document.getElementById(str);
    var el = document.createElement('textarea');
-   el.value = str;
+   el.value = str.textContent;
    el.setAttribute('readonly', '');
    el.style = {position: 'absolute', left: '-9999px'};
    document.body.appendChild(el);
@@ -11,6 +11,17 @@ function copyToClipboard (str)
    document.execCommand('copy');
    document.body.removeChild(el);
 }
+
+function copyStringToClipboard (str)
+{
+    const el = document.createElement('textarea');
+    el.value = str;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+}
+
 </script>
 
 <style>

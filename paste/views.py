@@ -9,13 +9,23 @@ from django.db import IntegrityError
 from django.shortcuts import redirect
 from django.views import View
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
+
+
+def show_page(request, page):
+
+    paste_list = Paste.unexpired_objects.order_by('-creation_date')
+    p = Paginator(paste_list, 20)
+    page_obj = p.page(page)
+
+    context = {'paste_list': page_obj.object_list, 'page_obj': page_obj}
+
+    return render(request, 'paste/pastes.html', context)
 
 
 def show_all(request):
 
-    paste_list = Paste.unexpired_objects.order_by('-creation_date')
-    context = {'paste_list': paste_list}
-    return render(request, 'paste/pastes.html', context)
+    return redirect('paste:show_page', page=1)
 
 
 def detail(request, paste_hash):
@@ -27,17 +37,31 @@ def detail(request, paste_hash):
     return render(request, 'paste/detail.html', context)
 
 
+def download(request, paste_hash):
+
+    paste = get_object_or_404(Paste.unexpired_objects, hash=paste_hash)
+
+    return HttpResponse(paste.text, content_type='text/plain')
+
+
 @login_required(login_url=reverse_lazy('common:login'))
-def show_my_pastes(request):
+def show_my_page(request, page):
 
     paste_list = Paste.unexpired_objects.filter(owner=request.user, catalog__isnull=True)
+    p = Paginator(paste_list, 20)
+    page_obj = p.page(page)
 
     catalog_list = PasteCatalog.objects.filter(owner=request.user)
 
-    #.values_list('catalog')
-    #catalog_list = PasteCatalog.objects.filter(pk__in=catalogs_ids)
+    context = {'paste_list': page_obj.object_list, 'page_obj': page_obj, 'catalog_list': catalog_list}
 
-    return render(request, 'paste/pastes.html', {'paste_list': paste_list, 'catalog_list': catalog_list})
+    return render(request, 'paste/pastes.html', context)
+
+
+@login_required(login_url=reverse_lazy('common:login'))
+def show_my_pastes(request):
+
+    return redirect('paste:show_my_page', page=1)
 
 
 def edit(request, paste_hash):
