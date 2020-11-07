@@ -31,7 +31,6 @@ class UrlCreateForm(ModelForm):
 
         url = super(UrlCreateForm, self).save(commit=False)
 
-        print(self.cleaned_data['choice_field'])
         url.expiration_date = datetime.datetime.now() + self.EXP_DICT[self.cleaned_data['choice_field']]
 
         return url
