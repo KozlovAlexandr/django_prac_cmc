@@ -15,7 +15,7 @@ from django.core.paginator import Paginator
 def show_page(request, page):
 
     paste_list = Paste.unexpired_objects.order_by('-creation_date')
-    p = Paginator(paste_list, 20)
+    p = Paginator(paste_list, 10)
     page_obj = p.page(page)
 
     context = {'paste_list': page_obj.object_list, 'page_obj': page_obj}
@@ -48,7 +48,7 @@ def download(request, paste_hash):
 def show_my_page(request, page):
 
     paste_list = Paste.unexpired_objects.filter(owner=request.user, catalog__isnull=True)
-    p = Paginator(paste_list, 20)
+    p = Paginator(paste_list, 10)
     page_obj = p.page(page)
 
     catalog_list = PasteCatalog.objects.filter(owner=request.user)

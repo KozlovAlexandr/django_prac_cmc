@@ -33,6 +33,9 @@
     <table class="table">
        <caption style="caption-side: top">Pastes
            {% if request.path == page_url %}
+               {% if page_obj.number > 2 %}
+                   <a class = "ml-2 mr-2" href={% url 'paste:show_page' 1 %}><<</a>
+               {% endif %}
                 {% if page_obj.has_previous %}
                     <a class = "ml-2 mr-2" href={% url 'paste:show_page' page_obj.previous_page_number %}>{{page_obj.previous_page_number}} </a>
                 {% endif %}
@@ -40,13 +43,22 @@
                 {% if page_obj.has_next %}
                     <a class = "ml-2 mr-2" href={% url 'paste:show_page' page_obj.next_page_number %}>{{ page_obj.next_page_number}}</a>
                 {% endif %}
+               {% if page_obj.number != page_obj.paginator.num_pages %}
+                   <a class = "ml-2 mr-2" href={% url 'paste:show_page' page_obj.paginator.num_pages %}>>></a>
+               {% endif %}
            {%  else %}
+               {% if page_obj.number > 2 %}
+                   <a class = "ml-2 mr-2" href={% url 'paste:show_my_page' 1 %}><<</a>
+               {% endif %}
                {% if page_obj.has_previous %}
                    <a class = "ml-2 mr-2" href={% url 'paste:show_my_page' page_obj.previous_page_number %}>{{page_obj.previous_page_number}} </a>
                {% endif %}
                <span class="ml-2 mr-2">{{  page_obj.number }}</span>
                {% if page_obj.has_next %}
                    <a class = "ml-2 mr-2" href={% url 'paste:show_my_page' page_obj.next_page_number %}>{{ page_obj.next_page_number}}</a>
+               {% endif %}
+               {% if page_obj.number != page_obj.paginator.num_pages %}
+                   <a class = "ml-2 mr-2" href={% url 'paste:show_my_page' page_obj.paginator.num_pages %}>>></a>
                {% endif %}
            {% endif %}
        </caption>
