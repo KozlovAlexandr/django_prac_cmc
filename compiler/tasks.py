@@ -23,7 +23,7 @@ def compile_and_run(text):
                     result.update({'compiler_output': compiler_process.stdout})
 
                 exec_file.close()
-                args = ['firejail', '--quiet', exec_file.name]
+                args = ['firejail', '--shell=none', '--quiet', '--private', '--private-bin=/', exec_file.name]
                 process = subprocess.run(args=args, encoding='utf_8', stdout=subprocess.PIPE,
                                          stderr=subprocess.PIPE, input=text)
 
