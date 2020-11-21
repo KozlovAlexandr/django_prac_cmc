@@ -54,7 +54,6 @@ class PasteCreateForm(ModelForm):
 
         paste = super(PasteCreateForm, self).save(commit=False)
 
-        print(self.cleaned_data['choice_field'])
         paste.expiration_date = datetime.datetime.now() + self.EXP_DICT[self.cleaned_data['choice_field']]
 
         return paste
