@@ -1,33 +1,10 @@
-
-<!--{% include "common/base.html" %}-->
-<!--<form action="" method="POST"> {% csrf_token %}-->
-
-<!--{%for error in form.non_field_errors%}-->
-<!--    <p style="color:red">{{error}}</p>-->
-<!--{% endfor %}-->
-
-<!--{% for field in form %}-->
-<!--<div>-->
-<!--    <p>{{field.name}}: </p>-->
-<!--    <p>{{field}}</p>-->
-<!--</div>-->
-<!--{% endfor %}-->
-<!--<input type="submit" value="Submit">-->
-<!--&lt;!&ndash;    <input type="hidden" name="_method" value="delete">&ndash;&gt;-->
-<!--&lt;!&ndash;    <input type="submit" value="Delete">&ndash;&gt;-->
-
-<!--</form>-->
-
-<!--<form action="" method="POST"> {% csrf_token %}-->
-<!--    <input type="hidden" name="_method" value="delete">-->
-<!--    <input type="submit" value="Delete">-->
-<!--</form>-->
-
-
 {% load widget_tweaks %}
 
 <link rel="stylesheet"
       href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/default.min.css">
+<style>
+    .hljs { max-height: 500px }
+</style>
 <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
@@ -53,7 +30,7 @@
             {{field | add_class:"form-control"|attr:"readonly" }}
         {% else %}
             <pre><code class="{{form.syntax}}">{{field.value}}</code></pre>
-            <div class="controls">
+            <div class="controls" style="max-height: 200px;">
                 <button type="button" class="btn btn-primary mr-2" onclick="copyToClipboard('raw_paste')">Copy</button>
 
                 {% if form.instance.syntax.name == 'C++' %}
@@ -62,7 +39,7 @@
 
                 <a href="{% url 'paste:download' form.instance.hash %}">Download as text</a>
 
-                <textarea hidden name="code" form="codeForm">{{ field.value }}</textarea>
+                <textarea hidden name="code" form="codeForm" style="max-height: 200px;">{{ field.value }}</textarea>
 
             </div>
             <div style="display: none">
@@ -81,20 +58,3 @@
 {% endif %}
 
 </div>
-
-
-
-
-
-<!--<div class = "container ml-0 col-12">-->
-<!--<p>Title: {{paste.title}}</p>-->
-<!--<p>syntax: {{paste.syntax}}</p>-->
-<!--<p><b>{{paste.text}}</b></p>-->
-<!--<p>created in {{paste.creation_date}}</p>-->
-<!--<p>expired in {{paste.expiration_date}}</p>-->
-<!--<p>owned by {% if paste.owner %} {{paste.owner.username}}-->
-<!--            {% else %} Anonymous {% endif %}</p>-->
-<!--{% if can_edit %}-->
-<!--<p><a href="/paste/{{paste.hash}}/edit">edit my paste</a></p>-->
-<!--{% endif %}-->
-<!--</div>-->
