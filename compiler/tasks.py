@@ -29,9 +29,9 @@ def compile_and_run(text, prog_input):
                                          stderr=subprocess.PIPE, input=prog_input)
 
                 if process.stdout:
-                    result.update({'stdout': process.stdout})
+                    result.update({'stdout': process.stdout[:1000]})
                 if process.stderr:
-                    result.update({'stderr': process.stderr})
+                    result.update({'stderr': process.stderr[:1000]})
 
                 result.update({'return_code': process.returncode})
 

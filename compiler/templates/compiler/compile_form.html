@@ -41,12 +41,13 @@
                 {% if name == 'error' %} Error {% endif %}
                 {% if name == 'compiler_error' %} Compiler error {% endif %}
                 {% if name == 'compiler_output' %} Compiler output {% endif %}
-                {% if name == 'return_code' %} Return code {% endif %}
+{#                {% if name == 'return_code' %} Return code {% endif %}#}
                 {% if name == 'stdout' %} Stdout {% endif %}
                 {% if name == 'stderr' %} Stderr {% endif %}
             </label>
             {% if name == 'return_code' %}
             <div style="white-space: pre;" class="controls" id={{ name }}></div>
+                <hr/>
             {% else %}
             <textarea readonly class="w-100 form-control" id={{ name }}></textarea>
             {% endif %}
@@ -73,6 +74,10 @@
         for (const [key, value] of Object.entries(result)) {
             $("#" + key + "_block").show()
             $("#" + key).text(value)
+            if (key === "return_code")
+            {
+                $("#" + key).text("Program returned " + value)
+            }
         }
     }
 
