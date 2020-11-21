@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Paste, PasteCatalog
+from .models import Paste, PasteCatalog, Lang
 from django import forms
 from django.forms import ValidationError
 import datetime
@@ -43,6 +43,9 @@ class PasteCreateForm(ModelForm):
 
         self.fields['catalog'] = forms.ModelChoiceField(queryset=choices, initial=cur,
                                                         required=False, empty_label="No folder")
+
+        self.fields['syntax'].empty_label = None
+        self.fields['syntax'].initial = Lang.objects.filter(name='plain text')[0]
 
     def save(self, commit=True):
 

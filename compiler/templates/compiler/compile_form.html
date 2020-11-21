@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://codemirror.net/addon/hint/show-hint.css">
 <script src="https://codemirror.net/addon/hint/show-hint.js"></script>
 <script src="https://codemirror.net/mode/clike/clike.js"></script>
+<script type="text/javascript" src="http://www.openjs.com/scripts/events/keyboard_shortcuts/shortcut.js"></script>
 <style>.CodeMirror {border: 2px inset #dee;}</style>
 {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.css">#}
 {#<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.js"></script>#}
@@ -15,15 +16,22 @@
 
 
 <div class="container ml-0 col-12">
+
     <div class = "controls form-group col-12">
-    <textarea style="min-height: 800px" class="form-control" id="to_compile"></textarea>
+    <textarea style="min-height: 800px" class="form-control" id="to_compile">{{ code }}</textarea>
     </div>
 
     <div class = "form-group col-3">
-        <button class="btn btn-primary" type="submit" id="compile_button">Compile</button>
+        <button class="btn btn-primary" type="submit" id="compile_button">Compile & Run</button>
+        <span class="form-group col-3" id="status" style="display: none";></span>
     </div>
 
     <div class="form-group col-3" id="status" style="display: none";></div>
+
+    <div class="form-group col-8">
+        <label class="control-label">Stdin</label>
+        <textarea class="w-100 form-control" id="stdin"></textarea>
+    </div>
 
     {% with 'error compiler_error compiler_output return_code stdout stderr' as list %}
         {% for name in list.split %}
@@ -37,7 +45,12 @@
                 {% if name == 'stdout' %} Stdout {% endif %}
                 {% if name == 'stderr' %} Stderr {% endif %}
             </label>
+            {% if name == 'return_code' %}
             <div style="white-space: pre;" class="controls" id={{ name }}></div>
+            {% else %}
+            <textarea readonly class="w-100 form-control" id={{ name }}></textarea>
+            {% endif %}
+{#            <div style="white-space: pre;" class="controls" id={{ name }}></div>#}
         </div>
 
         {% endfor %}
@@ -45,6 +58,10 @@
 </div>
 
 <script>
+
+    shortcut.add("ctrl+enter", function(e) {
+        $("#compile_button").click();
+    })
 
     var editor = CodeMirror.fromTextArea(document.getElementById('to_compile'), {
         mode: "text/x-c++src",
@@ -120,6 +137,7 @@
             url: "/paste/compile/api/",
             data: {
                 text: editor.getValue(), // < note use of 'this' here
+                stdin: $('#stdin').val(),
             },
             success: function(result) {
                 doPoll(result['task_id']);

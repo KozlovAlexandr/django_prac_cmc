@@ -8,7 +8,7 @@ from celery.exceptions import SoftTimeLimitExceeded
 
 
 @shared_task(soft_time_limit=10)
-def compile_and_run(text):
+def compile_and_run(text, prog_input):
     try:
         with tempfile.NamedTemporaryFile(mode='w+t', delete=False, suffix='.out') as exec_file:
 
@@ -16,8 +16,9 @@ def compile_and_run(text):
 
             try:
 
-                args = ['g++', '-o', exec_file.name, '-x', 'c++', '-']
-                compiler_process = subprocess.run(args=args, encoding='utf_8', stdout=subprocess.PIPE, stderr=subprocess.STDOUT, input=text, check=True)
+                args = ['g++', '-std=c++17', '-o', exec_file.name, '-x', 'c++', '-']
+                compiler_process = subprocess.run(args=args, encoding='utf_8', stdout=subprocess.PIPE,
+                                                  stderr=subprocess.STDOUT, input=text, check=True)
 
                 if compiler_process.stdout:
                     result.update({'compiler_output': compiler_process.stdout})
@@ -25,7 +26,7 @@ def compile_and_run(text):
                 exec_file.close()
                 args = ['firejail', '--shell=none', '--quiet', '--private', '--private-bin=/', exec_file.name]
                 process = subprocess.run(args=args, encoding='utf_8', stdout=subprocess.PIPE,
-                                         stderr=subprocess.PIPE, input=text)
+                                         stderr=subprocess.PIPE, input=prog_input)
 
                 if process.stdout:
                     result.update({'stdout': process.stdout})
