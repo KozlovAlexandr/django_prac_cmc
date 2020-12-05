@@ -24,14 +24,21 @@ def compile_and_run(text, prog_input):
                     result.update({'compiler_output': compiler_process.stdout})
 
                 exec_file.close()
-                args = ['firejail', '--shell=none', '--quiet', '--private', '--private-bin=/', exec_file.name]
+                args = ['firejail', '--shell=none', '--quiet', '--private', '--private-bin=/',  '--rlimit-nproc=10',  exec_file.name]
                 process = subprocess.run(args=args, encoding='utf_8', stdout=subprocess.PIPE,
                                          stderr=subprocess.PIPE, input=prog_input)
 
                 if process.stdout:
                     result.update({'stdout': process.stdout[:1000]})
+
+                    if len(process.stdout) > 1000:
+                        result.update({'stdout_cut': "true"})
+
                 if process.stderr:
                     result.update({'stderr': process.stderr[:1000]})
+
+                    if len(process.stderr) > 1000:
+                        result.update({'stderr_cut': "true"})
 
                 result.update({'return_code': process.returncode})
 

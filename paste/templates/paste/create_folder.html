@@ -2,15 +2,46 @@
 
 {% include "common/base.html" %}
 
-<div class="container ml-0 col-8">
+<style>
+.anyClass
+{
+    width: 50%;
+height:300px;
+overflow-y: scroll;
+}
+</style>
+
+<div class="container ml-0 col-8 overflow-auto">
 <form class="" action="" method="POST"> {% csrf_token %}
 
 {%for error in form.non_field_errors%}
     <p style="color:#ff0000">{{error}}</p>
 {% endfor %}
-
 {% for field in form %}
-<div class="form-group col-6">
+
+    {% if field.label == "Name" %}
+         <div class="form-group col-6">
+        <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
+        <div class="controls">
+            {% render_field field class+="form-control"%}
+        </div>
+         </div>
+        <ul class="nav nav-stacked anyClass">
+    {% else %}
+        <li class="nav-item w-25">
+        <div class="form-group col-6">
+        <div class="form-check">
+            {% render_field field class+="form-check-input" %}
+            <label class="form-check-label">
+                <a href="{% url 'paste:edit' field.name %}"> {{field.label}} </a>
+            </label>
+        </div>
+        </div>
+        </li>
+    {% endif %}
+
+
+{% comment %}<div class="form-group col-6">
     {% if field.label == "Name" %}
     <label class="control-label"  for="{{field.name}}">{{field.label}}</label>
     <div class="controls">
@@ -24,9 +55,10 @@
     </label>
     </div>
     {% endif %}
-</div>
+</div>{% endcomment %}
 {% endfor %}
-    <div class="form-group col-3">
+    </ul>
+    <div class="form-group col-3 mt-5">
         <button class="btn btn-primary">Create</button>
     </div>
 </form>

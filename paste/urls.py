@@ -9,6 +9,7 @@ urlpatterns = [
     path('my/', views.show_my_pastes, name='show_my_pastes'),
     path('my/<int:page>/', views.show_my_page, name='show_my_page'),
     path('create/', views.create, name='create'),
+    path('search/', views.search, name='search'),
     path('<str:paste_hash>/edit/', views.edit, name='edit'),
     path('raw/<str:paste_hash>/', views.download, name='download'),
     path('<str:paste_hash>/', views.detail, name='detail'),

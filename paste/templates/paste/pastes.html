@@ -2,11 +2,11 @@
 
 <div class = "container ml-0 col-12">
 
-{% url 'paste:show_page' page_obj.number as page_url %}
+{% url 'paste:show_my_page' page_obj.number as page_url %}
 
 {% if paste_list or catalog_list %}
 
-  {% if request.path != page_url %}
+  {% if request.path == page_url %}
   <p>
     {% if catalog_list %}
   <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -32,7 +32,7 @@
   {% if paste_list %}
     <table class="table">
        <caption style="caption-side: top">Pastes
-           {% if request.path == page_url %}
+           {% if request.path != page_url %}
                {% if page_obj.number > 2 %}
                    <a class = "ml-2 mr-2" href={% url 'paste:show_page' 1 %}><<</a>
                {% endif %}
@@ -46,6 +46,10 @@
                {% if page_obj.number != page_obj.paginator.num_pages %}
                    <a class = "ml-2 mr-2" href={% url 'paste:show_page' page_obj.paginator.num_pages %}>>></a>
                {% endif %}
+               <form action="{% url 'paste:search' %}" class ="form-check-inline" method="get">
+               <input name="title" type="text" size="40">
+               <input type="submit" style="position: absolute; left: -9999px"/>
+               </form>
            {%  else %}
                {% if page_obj.number > 2 %}
                    <a class = "ml-2 mr-2" href={% url 'paste:show_my_page' 1 %}><<</a>

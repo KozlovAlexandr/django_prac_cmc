@@ -23,6 +23,16 @@ def show_page(request, page):
     return render(request, 'paste/pastes.html', context)
 
 
+def search(request):
+
+    paste_list = Paste.unexpired_objects.order_by('-creation_date').filter(title=request.GET.get("title"))
+    p = Paginator(paste_list, 20)
+    page_obj = p.page(1)
+
+    context = {'paste_list': page_obj.object_list, 'page_obj': page_obj}
+
+    return render(request, 'paste/pastes.html', context)
+
 def show_all(request):
 
     return redirect('paste:show_page', page=1)
@@ -47,7 +57,7 @@ def download(request, paste_hash):
 @login_required(login_url=reverse_lazy('common:login'))
 def show_my_page(request, page):
 
-    paste_list = Paste.unexpired_objects.filter(owner=request.user, catalog__isnull=True)
+    paste_list = Paste.unexpired_objects.order_by('-creation_date').filter(owner=request.user, catalog__isnull=True)
     p = Paginator(paste_list, 20)
     page_obj = p.page(page)
 
