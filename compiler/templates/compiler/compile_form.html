@@ -90,14 +90,14 @@
         {
             label = $("#stdout_label")
             t = label.text()
-            label.text(t + " (Output was truncated to 1000 characters)")
+            label.text("Stdout (Output was truncated to 1000 characters)")
         }
 
         if (result["stderr_cut"] === "true")
         {
             label = $("#stderr_label")
             t = label.text()
-            label.text(t + " (Output was truncated to 1000 characters)")
+            label.text("Stderr (Output was truncated to 1000 characters)")
         }
 
 
