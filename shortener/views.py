@@ -49,8 +49,6 @@ def show_my_page(request, page):
     p = Paginator(unexpired, 20)
     page_obj = p.page(page)
 
-    print(page_obj.object_list)
-
     context = {'url_list': page_obj.object_list, 'page_obj': page_obj}
 
     return render(request, 'shortener/my_urls.html', context)
