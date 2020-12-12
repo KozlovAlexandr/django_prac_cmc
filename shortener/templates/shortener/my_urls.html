@@ -1,42 +1,10 @@
 {% include "common/base.html" %}
 
-<!--{% if expired or unexpired %}-->
-<!--    <ul>-->
-<!--    {% for url in unexpired %}-->
-<!--        <li>-->
-<!--        <p>   <a href="/shrt/{{ url.hash }}/">{{request.get_host}}/shrt/{{ url.hash }}</a>-->
-<!--            by {{ url.owner.username}} </p>-->
-<!--            <p>Original Url: <a href="{{url.original_url}}">{{url.original_url}}</a></p>-->
-<!--            <a href="{% url 'shortener:edit' url.hash%}">Edit</a></p>-->
-<!--            <p>Expires at: {{url.expiration_date}}</p>-->
-<!--            <p>{{url.clicked}} clicks</p>-->
-<!--        </li>-->
-<!--    {% endfor %}-->
-<!--        {% if expired %}-->
-<!--        <h2>Expired: </h2>-->
-<!--        {% endif %}-->
-<!--     {% for url in expired %}-->
-<!--        <li>-->
-<!--        <p>   <a href="/shrt/{{ url.hash }}/">{{request.get_host}}/shrt/{{ url.hash }}</a>-->
-<!--            by {{ url.owner.username}} </p>-->
-<!--            <p>Original Url: <a href="{{url.original_url}}">{{url.original_url}}</a></p>-->
-<!--            <a href="{% url 'shortener:edit' url.hash%}">Edit</a></p>-->
-<!--            <p>Expired at: {{url.expiration_date}}</p>-->
-<!--            <p>{{url.clicked}} clicks</p>-->
-<!--        </li>-->
-<!--    {% endfor %}-->
-<!--    </ul>-->
-<!--{% else %}-->
-<!--    <p>You have no short urls</p>-->
-<!--{% endif %}-->
-
-
 <div class="container ml-0 col-12">
-{% if expired or unexpired %}
+{% if  url_list %}
 
-{% if unexpired %}
+{% if url_list %}
     <table class="table">
-       <caption style="caption-side: top">Unexpired</caption>
       <thead>
         <tr>
           <th scope="col">Short url</th>
@@ -46,8 +14,21 @@
           <th scope="col">Clicks</th>
         </tr>
       </thead>
+        {% if page_obj.number > 2 %}
+            <a class = "ml-2 mr-2" href={% url 'url:show_page' 1 %}><<</a>
+        {% endif %}
+        {% if page_obj.has_previous %}
+            <a class = "ml-2 mr-2" href={% url 'url:show_page' page_obj.previous_page_number %}>{{page_obj.previous_page_number}} </a>
+        {% endif %}
+        <span class="ml-2 mr-2">{{  page_obj.number }}</span>
+        {% if page_obj.has_next %}
+            <a class = "ml-2 mr-2" href={% url 'url:show_page' page_obj.next_page_number %}>{{ page_obj.next_page_number}}</a>
+        {% endif %}
+        {% if page_obj.number != page_obj.paginator.num_pages %}
+            <a class = "ml-2 mr-2" href={% url 'url:show_page' page_obj.paginator.num_pages %}>>></a>
+        {% endif %}
       <tbody>
-        {% for url in unexpired %}
+        {% for url in url_list %}
         <tr>
           <td>
               <a href="/shrt/{{ url.hash }}/" id="{{url.hash}}"> {{request.get_host}}/shrt/{{ url.hash }}</a>
@@ -66,13 +47,14 @@
     </table>
 {% endif %}
 
-{% if expired %}
+{% comment %}{% if expired %}
     <table class="table">
        <caption style="caption-side: top">Expired</caption>
       <thead>
         <tr>
           <th scope="col">Short url</th>
-          <th scope="col">Original url</th>
+            <th scope="col"></th>
+          <th style="width:50%;" scope="col">Original url</th>
           <th scope="col">Expires at</th>
           <th scope="col">Clicks</th>
         </tr>
@@ -95,7 +77,7 @@
         {% endfor %}
       </tbody>
     </table>
-{% endif %}
+{% endif %}{% endcomment %}
 
 {% else %}
     <p>You have no short urls.</p>

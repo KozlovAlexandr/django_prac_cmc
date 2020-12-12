@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.base import RedirectView
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 
 
 from .forms import UrlCreateForm, UrlEditForm
@@ -40,14 +41,29 @@ class CreateView(View):
 
         return render(request, "shortener/create.html", {'form': form})
 
-
 @login_required(login_url=reverse_lazy('common:login'))
-def show_my_urls(request):
+def show_my_page(request, page):
 
     unexpired = ShortUrl.unexpired_objects.filter(owner=request.user).order_by('-creation_date')
-    expired = ShortUrl.expired_objects.filter(owner=request.user).order_by('-creation_date')
 
-    return render(request, 'shortener/my_urls.html', {'expired': expired, 'unexpired': unexpired})
+    p = Paginator(unexpired, 20)
+    page_obj = p.page(page)
+
+    print(page_obj.object_list)
+
+    context = {'url_list': page_obj.object_list, 'page_obj': page_obj}
+
+    return render(request, 'shortener/my_urls.html', context)
+
+
+
+
+@login_required(login_url=reverse_lazy('common:login'))
+def show_my(request):
+
+    return redirect('shortener:show_page', page=1)
+
+
 
 
 def my_redirect(request, url_hash):
